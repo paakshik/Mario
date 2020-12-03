@@ -2,7 +2,7 @@ var mario;
 var grounds;
 var marios;
 var gravity = 0.04;
-var gameState = "TEXT";
+var gameState = "PLAY";
 var lives = 3;
 function preload(){
     ground = loadImage("ground2.png");
@@ -22,25 +22,15 @@ function setup(){
     grounds = createSprite(600,380,200,200);
     grounds.addImage(ground);
     obsG = new Group();
-    if (!localStorage["score"]){
-localStorage["score"] = 0;
-}
+ 
 
-if (!localStorage["Highest_score"]){
-    localStorage["Highest_score"] = 0;
-    }
 
 }
-}
+
 function draw(){
     background(255);
     marios.collide(grounds);
     drawSprites();
- if (gameState === "TEXT" ){
-     if (keyDown("y")){
-         gameState = "PLAY";
-     }
- }
  if (gameState === "PLAY"){
      time = time + Math.round(getFrameRate()/60);
      grounds.velocityX = -2;
