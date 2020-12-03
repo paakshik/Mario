@@ -3,6 +3,7 @@ var grounds;
 var marios;
 var gravity = 0.04;
 var gameState = "TEXT";
+var lives = 3;
 function preload(){
     ground = loadImage("ground2.png");
     backer =loadImage("bg.png");
@@ -21,23 +22,33 @@ function setup(){
     grounds = createSprite(600,380,200,200);
     grounds.addImage(ground);
     obsG = new Group();
-    
+    if (!localStorage["score"]){
+localStorage["score"] = 0;
+}
+
+if (!localStorage["Highest_score"]){
+    localStorage["Highest_score"] = 0;
+    }
+
+}
 }
 function draw(){
     background(255);
     marios.collide(grounds);
+    drawSprites();
  if (gameState === "TEXT" ){
      if (keyDown("y")){
          gameState = "PLAY";
      }
  }
  if (gameState === "PLAY"){
-    grounds.velocityX = -2;
+     time = time + Math.round(getFrameRate()/60);
+     grounds.velocityX = -2;
   
     if (grounds.x < -200){
         grounds.x = 600;
     }
-    if (keyWentDown("space")){
+    if (keyWentDown("space")&&marios.y > 250){
         marios.velocityY = -2;
     }
     marios.velocityY += gravity;
@@ -49,10 +60,22 @@ function draw(){
        obsG.add(obs);
    }
    if (obsG.isTouching(marios)){
-       gameState = "LOSE";  
+       lives = lives -1;
+       obsG.destroyEach();
+       if (lives === 0){
+           gameState = "LOSE";  
+       }
+       
     }
-
-    drawSprites();
+ fill("white");
+   textFont("Georgia");
+   noStroke();
+   textSize(20)
+    text("Score: "+score,300,50);
+   text("LIVES: "+ lives,200,50)
+text("Survival Time: "+ time,20,50)
+    
     
 }
+    
 }
