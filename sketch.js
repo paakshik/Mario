@@ -4,6 +4,7 @@ var marios;
 var gravity = 0.04;
 var gameState = "PLAY";
 var lives = 3;
+var time = 0;
 function preload(){
     ground = loadImage("ground2.png");
     backer =loadImage("bg.png");
